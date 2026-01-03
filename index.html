@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💫 קוהרנטיות</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+        
+        body {
+            background: #FFF5F7;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+            padding-bottom: 200px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            color: #D4A574;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+            font-size: 1.1em;
+        }
+        
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-icon {
+            font-size: 80px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        
+        .power-button {
+            background: #fff;
+            border: 2px solid #D4A574;
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .power-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(212, 165, 116, 0.3);
+            background: #FFFAF5;
+        }
+        
+        .power-button:active {
+            transform: scale(0.98);
+        }
+        
+        .button-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .button-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #D4A574;
+            margin-bottom: 5px;
+        }
+        
+        .button-desc {
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFF5F7;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .overlay.active {
+            display: flex;
+        }
+        
+        .overlay-content {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .close-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #D4A574;
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .animation-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+        
+        .animation-text {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            min-height: 60px;
+            color: #333;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #FFE4EC;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            background: #D4A574;
+        }
+        
+        .completion-message {
+            display: none;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #D4A574;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .completion-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .install-btn {
+            background: #D4A574;
+            border: none;
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .install-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(212, 165, 116, 0.5);
+        }
+        
+        .install-btn:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .reset-btn {
+            background: #FFE4EC;
+            border: 2px solid #FFB6C1;
+            color: #666;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        
+        .info-box {
+            background: #fff;
+            border: 2px solid #B8E6D4;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .info-title {
+            color: #D4A574;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .info-text {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💫 קוהרנטיות</h1>
+        <p>סנכרון לב-מוח ויצירת הרמוניה</p>
+    </div>
+    
+    <div class="icon-container">
+        <span class="main-icon">💫</span>
+    </div>
+    
+    <div class="buttons-container">
+        <div class="power-button" onclick="startProcess('coherence')">
+            <span class="button-icon">❤️</span>
+            <div class="button-title">קוהרנטיות לב-מוח</div>
+            <div class="button-desc">סנכרון וחיבור בין הלב למוח</div>
+        </div>
+    </div>
+    
+    <div class="info-box">
+        <div class="info-title">💡 מה זה קוהרנטיות?</div>
+        <div class="info-text">
+            קוהרנטיות היא מצב של סנכרון מושלם בין הלב, המוח והגוף. כשאנחנו במצב קוהרנטי, קצב הלב יציב והרמוני, המוח פועל בצורה אופטימלית, ואנחנו מרגישים רגועים, ממוקדים ובשליטה.
+        </div>
+    </div>
+    
+    <!-- Coherence Overlay -->
+    <div class="overlay" id="coherenceOverlay">
+        <button class="close-overlay" onclick="closeOverlay('coherence')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="coherenceIcon">💫</div>
+            <div class="animation-text" id="coherenceText">מתחילה קוהרנטיות...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="coherenceProgress"></div>
+            </div>
+            <button class="install-btn" id="coherenceBtn" onclick="runCoherenceProcess()">❤️ התחל קוהרנטיות</button>
+            <div class="completion-message" id="coherenceComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ כל הכבוד!</p>
+                <p style="color: #666;">קוהרנטיות לב-מוח הושלמה בהצלחה!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startProcess(type) {
+            document.getElementById(type + 'Overlay').classList.add('active');
+            document.getElementById(type + 'Progress').style.width = '0%';
+            document.getElementById(type + 'Complete').classList.remove('show');
+            document.getElementById(type + 'Btn').disabled = false;
+        }
+        
+        function closeOverlay(type) {
+            document.getElementById(type + 'Overlay').classList.remove('active');
+        }
+        
+        function runCoherenceProcess() {
+            const btn = document.getElementById('coherenceBtn');
+            const progress = document.getElementById('coherenceProgress');
+            const text = document.getElementById('coherenceText');
+            const icon = document.getElementById('coherenceIcon');
+            btn.disabled = true;
+            btn.textContent = '⏳ בתהליך...';
+            
+            const stages = [
+                { percent: 10, text: '❤️ מתמקדת בלב...', icon: '❤️' },
+                { percent: 20, text: '🌬️ נושמת עמוק ואיטי...', icon: '🌬️' },
+                { percent: 30, text: '💓 מאיטה את קצב הלב...', icon: '💓' },
+                { percent: 40, text: '🧠 מחברת לב ומוח...', icon: '🧠' },
+                { percent: 50, text: '✨ יוצרת סנכרון פנימי...', icon: '✨' },
+                { percent: 60, text: '🌊 מייצבת את גלי המוח...', icon: '🌊' },
+                { percent: 70, text: '💫 יוצרת הרמוניה...', icon: '💫' },
+                { percent: 80, text: '🌸 מטמיעה רגשות חיוביים...', icon: '🌸' },
+                { percent: 90, text: '💜 משלימה את החיבור...', icon: '💜' },
+                { percent: 100, text: '✅ קוהרנטיות הושלמה!', icon: '💫' }
+            ];
+            
+            let stage = 0;
+            const interval = setInterval(() => {
+                if (stage < stages.length) {
+                    progress.style.width = stages[stage].percent + '%';
+                    text.textContent = stages[stage].text;
+                    icon.textContent = stages[stage].icon;
+                    stage++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('coherenceComplete').classList.add('show');
+                    btn.disabled = false;
+                    btn.textContent = '❤️ התחל קוהרנטיות';
+                }
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
